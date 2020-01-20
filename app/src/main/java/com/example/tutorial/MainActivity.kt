@@ -1,5 +1,12 @@
 package com.example.tutorial
 
+/* Get/set methods removed from Article.kt:
+*
+* These are automatically created in Kotlin
+* as a part of instantiating the class;
+* from now on all we need is to access
+* the attributes outright, seen below.*/
+
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -37,6 +44,7 @@ class MainActivity : AppCompatActivity() {
                             try {
                                 val jsonObject = response.getJSONObject(i)
                                 val article = Article()
+                                // Here we access /assign Article's attributes outright.
                                 article.image = jsonObject.getString("image")
                                 article.title = jsonObject.getString("title")
                                 article.body = jsonObject.getString("body")
