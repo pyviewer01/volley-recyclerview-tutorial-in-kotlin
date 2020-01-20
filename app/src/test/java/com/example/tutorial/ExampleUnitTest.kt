@@ -1,4 +1,4 @@
-package com.example.pypi
+package com.example.tutorial
 
 import org.junit.Test
 

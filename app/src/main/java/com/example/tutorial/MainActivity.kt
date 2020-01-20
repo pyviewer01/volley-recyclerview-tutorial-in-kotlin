@@ -1,6 +1,5 @@
-package com.example.pypi
+package com.example.tutorial
 
-import android.app.ProgressDialog
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity

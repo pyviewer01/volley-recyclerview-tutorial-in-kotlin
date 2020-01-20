@@ -1,4 +1,4 @@
-package com.example.pypi
+package com.example.tutorial
 
 class Article {
     var title: String? = null

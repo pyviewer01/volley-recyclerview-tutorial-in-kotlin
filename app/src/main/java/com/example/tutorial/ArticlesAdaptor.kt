@@ -1,4 +1,4 @@
-package com.example.pypi
+package com.example.tutorial
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
