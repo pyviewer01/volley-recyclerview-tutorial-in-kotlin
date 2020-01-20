@@ -31,9 +31,6 @@ class MainActivity : AppCompatActivity() {
 
     private val data: Unit
         get() {
-            val progressDialog = ProgressDialog(this)
-            progressDialog.setMessage("Loading...")
-            progressDialog.show()
             val jsonArrayRequest =
                 JsonArrayRequest(url,
                     Response.Listener { response ->
@@ -47,15 +44,12 @@ class MainActivity : AppCompatActivity() {
                                 articles.add(article)
                             } catch (e: JSONException) {
                                 e.printStackTrace()
-                                progressDialog.dismiss()
                             }
                         }
                         adaptor!!.setData(articles)
                         adaptor!!.notifyDataSetChanged()
-                        progressDialog.dismiss()
                     }, Response.ErrorListener { error ->
                         Log.e("Volley", error.toString())
-                        progressDialog.dismiss()
                     })
             val requestQueue = Volley.newRequestQueue(this)
             requestQueue.add(jsonArrayRequest)
