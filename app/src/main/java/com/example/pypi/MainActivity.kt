@@ -1,0 +1,63 @@
+package com.example.pypi
+
+import android.app.ProgressDialog
+import android.os.Bundle
+import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.Response
+import com.android.volley.toolbox.JsonArrayRequest
+import com.android.volley.toolbox.Volley
+import org.json.JSONException
+import java.util.*
+
+
+class MainActivity : AppCompatActivity() {
+    var url = "https://api.myjson.com/bins/o4zlk"
+    var recyclerView: RecyclerView? = null
+    var adaptor: ArticlesAdaptor? = null
+    lateinit var articles: ArrayList<Article>
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        recyclerView = findViewById(R.id.recyclerview)
+        recyclerView?.setLayoutManager(LinearLayoutManager(this))
+        adaptor = ArticlesAdaptor()
+        recyclerView?.setAdapter(adaptor)
+        articles = ArrayList()
+        data
+    }
+
+    private val data: Unit
+        get() {
+            val progressDialog = ProgressDialog(this)
+            progressDialog.setMessage("Loading...")
+            progressDialog.show()
+            val jsonArrayRequest =
+                JsonArrayRequest(url,
+                    Response.Listener { response ->
+                        for (i in 0 until response.length()) {
+                            try {
+                                val jsonObject = response.getJSONObject(i)
+                                val article = Article()
+                                article.image = jsonObject.getString("image")
+                                article.title = jsonObject.getString("title")
+                                article.body = jsonObject.getString("body")
+                                articles.add(article)
+                            } catch (e: JSONException) {
+                                e.printStackTrace()
+                                progressDialog.dismiss()
+                            }
+                        }
+                        adaptor!!.setData(articles)
+                        adaptor!!.notifyDataSetChanged()
+                        progressDialog.dismiss()
+                    }, Response.ErrorListener { error ->
+                        Log.e("Volley", error.toString())
+                        progressDialog.dismiss()
+                    })
+            val requestQueue = Volley.newRequestQueue(this)
+            requestQueue.add(jsonArrayRequest)
+        }
+}
